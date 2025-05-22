@@ -23,3 +23,9 @@ Pada gambar pertama, terjadi error saat menjalankan `cargo run --bin client` kar
 ![broadcast3](images/broadcast3.png)
 
 Setelah port client disesuaikan agar sama dengan port server, yaitu sama-sama menggunakan 8081, koneksi antara client dan server berhasil terjalin. Setiap client yang dijalankan dapat terhubung dan menerima sambutan dari server, serta mengirimkan pesan. Server mencatat setiap koneksi baru, menerima pesan dari masing-masing client, dan membroadcast pesan tersebut ke seluruh client yang terhubung. Hasilnya, semua client dapat saling membaca pesan satu sama lain secara real-time. Ini menunjukkan bahwa komunikasi berbasis TCP berjalan dengan baik selama client dan server berada pada port yang sama.
+
+### Experiment 2.3: Small changes, add IP and Port
+
+![broadcast4](images/broadcast4.png)
+
+Berdasarkan gambar di atas, terlihat bahwa setiap pesan yang diterima oleh client kini disertai informasi alamat pengirim, yakni IP dan port dari client yang mengirimkan pesan tersebut. Hal ini dimungkinkan karena kode pada `server.rs` telah dimodifikasi: semula hanya mengirim isi pesan `(text.into())`, sekarang diubah menjadi `format!("{addr:?}: {text:?}")` sebelum dikirim melalui `bcast_tx.send()`. Perubahan ini memungkinkan server untuk menyisipkan metadata alamat pengirim ke dalam isi pesan yang akan dikirim ke seluruh client. Selain itu, tampilan di terminal client juga diperjelas dengan tambahan teks `Khansa's Computer - From server:` pada bagian `client.rs` agar setiap pesan yang diterima dari server dapat dikenali dengan mudah dan konteks sumber pesannya lebih jelas.
